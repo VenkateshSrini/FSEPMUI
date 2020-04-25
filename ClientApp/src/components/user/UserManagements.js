@@ -14,7 +14,7 @@ export class UserManagements extends Component {
         userItms: [],
         srchEMpId: '',
         srchlName: '',
-        srchfName:''
+        srchfName: ''
     }
     getUsers = () => {
         fetch(`${USR_SERVICE_URL}/GetAllEmployee`)
@@ -145,9 +145,9 @@ export class UserManagements extends Component {
         if (this.state.srchEMpId != '')
             searchParam.append('empId', this.state.srchEMpId);
         if (this.state.srchfName != '')
-            searchParam('fName', this.state.srchfName)
+            searchParam.append('fName', this.state.srchfName)
         if (this.state.srchlName != '')
-            searchParam('lName', this.state.srchlName)
+            searchParam.append('lName', this.state.srchlName)
 
         fetch(`${USR_SERVICE_URL}/SearchUser?${searchParam.toString()}`)
             .then(res => {
@@ -163,6 +163,50 @@ export class UserManagements extends Component {
             });
 
     }
+    clearCriteria = e => {
+        this.setState({ srchEMpId: '', srchfName: '', srchlName: '' });
+        this.getUsers();
+    }
+    sortGrid = (sortAttribute) => {
+        if (sortAttribute === 'eid') {
+            this.setState({
+                userItms: this.state.userItms.sort((i1, i2) => {
+                    if (i1.employeeId < i2.employeeId)
+                        return -1;
+                    else if (i1.employeeId === i2.employeeId)
+                        return 0;
+                    else
+                        return 1;
+                })
+            });
+        }
+        if (sortAttribute === 'fn') {
+            this.setState({
+                userItms: this.state.userItms.sort((i1, i2) => {
+                    if (i1.firstName < i2.firstName)
+                        return -1;
+                    else if (i1.firstName === i2.firstName)
+                        return 0;
+                    else
+                        return 1;
+                })
+            });
+        }
+        if (sortAttribute === 'ln') {
+            this.setState({
+                userItms: this.state.userItms.sort((i1, i2) => {
+                    if (i1.lastName < i2.lastName)
+                        return -1;
+                    else if (i1.lastName === i2.lastName)
+                        return 0;
+                    else
+                        return 1;
+                })
+            });
+        }
+
+    }
+    
     render() {
         const gridItems = this.state.userItms;
         return <Container>
@@ -210,7 +254,47 @@ export class UserManagements extends Component {
                 </Col>
             </Row>
             <Row>
-                
+                <Col>
+                    <Form onSubmit={this.searchUser}>
+                        <FormGroup>
+                            <Row>
+                            <Col>
+                                <Label for="srchEMpId">EmployeeId :</Label>
+                                <Input type="text" name="srchEMpId" onChange={this.onChange} value={this.state.srchEMpId}
+                                />
+                            </Col>
+                            <Col>
+                                <Label for="srchlName">Last Name :</Label>
+                                <Input type="text" name="srchlName" onChange={this.onChange} value={this.state.srchlName} />
+                            </Col>
+                            <Col>
+                                <Label for="srchfName">First Name :</Label>
+                                <Input type="text" name="srchfName" onChange={this.onChange} value={this.state.srchfName} />
+                            </Col>
+                                <Col>
+                                    <br />
+                                   
+
+                                <Button
+                                        color="secondary"
+                                        style={{ minWidth: "50px", alignSelf: 'down', top: '95%' }}
+                                    > Search</Button> <Button
+                                        color="secondary"
+                                        style={{ minWidth: "50px" }}
+                                        onClick={() => this.clearCriteria()}>Clear</Button>
+                            </Col>
+                            </Row>
+                        </FormGroup>
+                    </Form>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Label>Sort:</Label>&nbsp;&nbsp;<Button color="secondary"
+                        style={{ minWidth: "50px" }} onClick={() => this.sortGrid('eid')}>EmployeeId</Button>&nbsp;&nbsp;<Button color="secondary"
+                            style={{ minWidth: "50px" }} onClick={() => this.sortGrid('fn')}>First Name</Button>&nbsp;&nbsp;<Button color="secondary"
+                        style={{ minWidth: "50px" }} onClick={() => this.sortGrid('ln')}>Last Name</Button>
+                </Col>
             </Row>
             <Row>
                 <Col>
@@ -220,7 +304,7 @@ export class UserManagements extends Component {
                                 <ListGroup.Item variant="danger">No Item Found </ListGroup.Item>
                                 : gridItems.map(item => (
                                     <ListGroup.Item  >
-                                        <Row style={{minHeight: "10px"}}>
+                                        <Row style={{ minHeight: "10px" }}>
                                             <Col>
                                                 EmployeeId:  {item.employeeId}
                                             </Col>
@@ -229,11 +313,11 @@ export class UserManagements extends Component {
 
                                             </Col>
                                         </Row>
-                                        <Row style={{minHeight: "10px"}}>
+                                        <Row style={{ minHeight: "10px" }}>
                                             <Col >
                                                 First Name: {item.firstName}
                                             </Col>
-                                            
+
                                         </Row>
                                         <Row>
                                             <Col>
