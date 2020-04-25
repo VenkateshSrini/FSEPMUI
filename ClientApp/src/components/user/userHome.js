@@ -1,13 +1,13 @@
 ﻿import React, { Component } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
+import UserManagement from './UserManagements';
 export class UserHome extends Component {
     static displayName = UserHome.name;
 
     render() {
         return (
             <div>
-                <h1><center>User Management</center></h1>
-                <p>Welcome to your User home page</p>
+                <UserManagement/>
                 
             </div>
         );
