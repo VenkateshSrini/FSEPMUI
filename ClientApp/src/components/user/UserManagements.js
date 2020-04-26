@@ -253,6 +253,10 @@ export class UserManagements extends Component {
                     </Form>
                 </Col>
             </Row>
+            <Row><Col ><hr style={{
+                margin: 'auto 10px',
+                border: '1.5px solid rgb(150, 150, 150)'
+            }} /><br /></Col></Row>
             <Row>
                 <Col>
                     <Form onSubmit={this.searchUser}>

@@ -71,26 +71,35 @@ export class UserSearch extends Component {
                         <FormGroup>
                             <Row>
                                 <Col>
-                                    <Label for="employeeId">EmployeeId :</Label>
+                                    <Label for="employeeId">Id :</Label>
+                                </Col>
+                                <Col>
                                     <Input type="text" name="employeeId" onChange={this.onChange} value={this.state.employeeId}
                                     />
                                 </Col>
+                                </Row><Row>
                                 <Col>
                                     <Label for="lastName">Last Name :</Label>
+                                </Col>
+                                <Col>
                                     <Input type="text" name="lastName" onChange={this.onChange} value={this.state.lastName} />
                                 </Col>
+                            </Row><Row>
                                 <Col>
                                     <Label for="firstName">First Name :</Label>
-                                    <Input type="text" name="firstName" onChange={this.onChange} value={this.state.firstName} />
                                 </Col>
                                 <Col>
-                                    <br />
-
-
+                                    <Input type="text" name="firstName" onChange={this.onChange} value={this.state.firstName} />
+                                </Col>
+                                </Row><Row>
+                                <Col>
                                     <Button
                                         color="secondary"
                                         style={{ minWidth: "50px", alignSelf: 'down', top: '95%' }}
-                                    > Search</Button> <Button
+                                    > Search</Button>
+                                </Col>
+                                <Col>
+                                     <Button
                                         color="secondary"
                                         style={{ minWidth: "50px" }}
                                         onClick={() => this.clearCriteria()}>Clear</Button>
