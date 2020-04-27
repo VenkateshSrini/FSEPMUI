@@ -91,6 +91,42 @@ export class ProjectManagement extends Component {
     }
     submitNew = e => {
         e.preventDefault();
+        var startDateStr='';
+        var monthPart =0;
+        var datePart =0;
+        var endDateStr='';
+        if (this.state.startDate!=null)
+        {
+            startDateStr = this.state.startDate.getFullYear().toString();
+            monthPart = this.state.startDate.getMonth()+1;
+            if (monthPart<10)
+                startDateStr= startDateStr + "-0"+monthPart.toString();
+            else
+                startDateStr= startDateStr + "-"+monthPart.toString();
+            
+            datePart = this.state.startDate.getDate();
+            if (datePart<10)
+                startDateStr= startDateStr + "-0"+datePart.toString();
+            else
+                startDateStr= startDateStr + "-"+datePart.toString();
+
+        }
+        if (this.state.endDate!=null)
+        {
+            endDateStr = this.state.endDate.getFullYear().toString();
+            monthPart = this.state.endDate.getMonth()+1;
+            if (monthPart<10)
+            endDateStr= endDateStr + "-0"+monthPart.toString();
+            else
+            endDateStr= endDateStr + "-"+monthPart.toString();
+            
+            datePart = this.state.endDate.getDate();
+            if (datePart<10)
+                endDateStr= endDateStr + "-0"+datePart.toString();
+            else
+                endDateStr= endDateStr + "-"+datePart.toString();
+
+        }
         fetch(`${PRJCT_SERVICE_URL}/AddProject`, {
             method: 'post',
             headers: {
@@ -98,8 +134,8 @@ export class ProjectManagement extends Component {
             },
             body: JSON.stringify({
                 projectTitle: this.state.projectTitle,
-                startDate: this.state.startDate,
-                endDate: this.state.endDate,
+                startDate: startDateStr,
+                endDate: endDateStr,
                 priority: this.state.priority,
                 pmUsrId: this.state.pmUsrId
             })
@@ -110,9 +146,9 @@ export class ProjectManagement extends Component {
                 console.log(response.status);
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
-                return response.json();
+                //return response.json();
+                this.getProject();
             })
-            .then(jsn => this.getUsers())
             .catch(err => {
                 console.log(err);
                 alert(err);
@@ -140,9 +176,9 @@ export class ProjectManagement extends Component {
                 console.log(response.status);
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
+                this.getProject()
 
             })
-            .then(jsn => this.getUsers())
             .catch(err => {
                 console.log(err);
                 alert(err);
@@ -150,7 +186,7 @@ export class ProjectManagement extends Component {
     }
     suspend = projId => {
 
-        fetch(`${PRJCT_SERVICE_URL}/EditProject?projId=${projId}`, {
+        fetch(`${PRJCT_SERVICE_URL}/SuspendProject?projId=${projId}`, {
             method: 'put'
         })
             .then(response => {
@@ -158,9 +194,9 @@ export class ProjectManagement extends Component {
                 console.log(response.status);
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
+                this.getProject()
 
             })
-            .then(jsn => this.getUsers())
             .catch(err => {
                 console.log(err);
                 alert(err);
@@ -168,11 +204,18 @@ export class ProjectManagement extends Component {
     }
     populatePropForEdit = projId => {
         var prjEdit = this.state.prjItems.find(item => item.projId.trim() === projId);
-        alert(prjEdit.id);
+       // alert(prjEdit.projId);
+       var startDateVal = new Date(prjEdit.startDate);
+       var endDateVal = new Date(prjEdit.endDate)
+       if (startDateVal.getFullYear()==1)
+       startDateVal=null;
+       if (endDateVal.getFullYear()==1)
+       endDateVal=null;
         this.setState({
-            IsMod: true, projId: prjEdit.id, projectTitle: prjEdit.projectTitle,
-            startDate: prjEdit.startDate, endDate: prjEdit.endDate, buttonText: 'Modify',
-            pmUsrId: prjEdit.pmUsrId, priority: prjEdit.priority
+            IsMod: true, projId: prjEdit.projId, projectTitle: prjEdit.projectTitle,
+             buttonText: 'Modify', pmUsrId: prjEdit.pmUsrId, 
+             priority: prjEdit.priority, startDate:startDateVal,
+             endDate:endDateVal
         });
     }
     clearEdit = () => {
@@ -192,21 +235,30 @@ export class ProjectManagement extends Component {
 
     }
     clearSearchCriteria = () => {
-        this.state({ srchPrjName: '' });
+        this.setState({ srchPrjName: '' });
         this.getProject();
     }
     sortGrid = sortAttribute => {
         if (sortAttribute === 'sdt') {
             this.setState({
                 prjItems: this.state.prjItems.sort((p1, p2) => {
-                    return (p1.startDate - p2.startDate)
+                    var p1Date = new Date(p1.startDate);
+                    var p2Date = new Date(p2.startDate);
+                    if ((p1Date.getFullYear()==1)||(p2Date.getFullYear()==1))
+                    return -1;
+
+                    return (p1Date - p2Date);
                 })
             });
         }
         if (sortAttribute === 'edt') {
             this.setState({
                 prjItems: this.state.prjItems.sort((p1, p2) => {
-                    return (p1.endDate - p2.endDate)
+                    var p1Date = new Date(p1.endDate);
+                    var p2Date = new Date(p2.endDate);
+                    if ((p1Date.getFullYear()==1)||(p2Date.getFullYear()==1))
+                        return -1;
+                    return (p1Date - p2Date);
                 })
             });
         }
@@ -228,6 +280,9 @@ export class ProjectManagement extends Component {
     onPMSelect = (usrId, empId) => {
         this.setState({ pmUsrId: usrId });
     }
+    onChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
     render() {
         const gridItems = this.state.prjItems;
         return <Container>
@@ -239,7 +294,7 @@ export class ProjectManagement extends Component {
                                 <Label for="projectTitle">Project Title</Label>
                             </Col>
                             <Col>
-                                <Input  type="text" name="projectTitle" onChange={this.onChange} value={this.state.projectTitle}
+                                <Input type="text" name="projectTitle" onChange={this.onChange} value={this.state.projectTitle}
                                 />
                             </Col>
                             
@@ -388,17 +443,23 @@ export class ProjectManagement extends Component {
             <br/>
             <Row>
                 <Col>
-                    <ListGroup>
+                    <ListGroup >
                         {
                             ((!gridItems) || (gridItems.length <= 0)) ?
                                 <ListGroup.Item variant="danger">No Item Found </ListGroup.Item>
                                 : gridItems.map(item => (
+                                    <div>
                                     <ListGroup.Item  >
                                         <Row style={{ minHeight: "10px" }}>
                                             <Col>
                                                 Project:  {item.projectTitle}
                                             </Col>
-                                            <Col></Col>
+                                            <Col>
+                                              
+                                                </Col>
+                                            <Col>
+                                                    Priority : {item.priority}
+                                                </Col>
                                             <Col>
                                                 <Button color="warning"
                                                     onClick={() => this.populatePropForEdit(item.projId)}
@@ -414,7 +475,10 @@ export class ProjectManagement extends Component {
                                             <Col>
                                                 Completed: {item.completedTaskCount}
                                             </Col>
-                                            <Col></Col>
+                                                <Col>
+                                                </Col>
+                                                <Col>
+                                                </Col>
                                         </Row>
                                         <Row>
                                             <Col>
@@ -422,14 +486,17 @@ export class ProjectManagement extends Component {
                                             </Col>
                                             <Col>
                                                 End date:{item.endDate}
-                                            </Col>
+                                                </Col>
+                                            <Col></Col>
                                             <Col>
                                                 <Button color="danger" onClick={() => this.suspend(item.projId)}
                                                     style={{ minWidth: "200px" }}>
                                                     Supend</Button>
                                             </Col>
                                         </Row>
-                                    </ListGroup.Item>
+                                        </ListGroup.Item>
+                                       
+                                  </div>
 
                                 ))
 
