@@ -22,7 +22,7 @@ export class ProjectSearch extends Component {
             });
     }
     componentDidMount() {
-        this.getUsers();
+        this.getProject();
     }
     searchProject = e => {
         e.preventDefault();

@@ -9,23 +9,23 @@ export class TaskSearch extends Component {
     }
     getTasks = () => {
         var prjId = this.props.onGetParam();
+        alert(prjId);
         if (prjId !== '') {
             fetch(`${PRJCT_SERVICE_URL}/GetAllActiveTask?${prjId}`)
                 .then(res => {
                     console.log("***********************");
                     console.log(res.status)
                     console.log("***********************");
+                    if(res.status==200)
                     return res.json();
-                })
-                .then(res => {
-                    console.log("***********************");
-                    console.log(res.status)
-                    console.log("***********************");
-                    return res.json();
+                    else
+                    return null;
                 })
                 .then(resjsn => {
                     console.log("***********************");
                     console.log(resjsn);
+                    if(resjsn!=null)
+                    this.setState({tskItems:resjsn})
                     console.log("***********************");
                 })
                 .catch(err => {
