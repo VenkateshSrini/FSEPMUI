@@ -3,7 +3,8 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import UserHome from './user/userHome';
 import ProjectHome from './project/ProjectHome';
-import TaskHome from './task/TaskHome';
+import TaskAdd from './task/TaskAdd';
+import TaskMaintainence from './task/TaskMaintainence';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -18,8 +19,11 @@ export class Home extends Component {
                 <Tab eventKey="Project" title="Project">
                     <ProjectHome />
                 </Tab>
-                <Tab eventKey="Task" title="Task">
-                    <TaskHome />
+                <Tab eventKey="TaskAdd" title="Task Add">
+                    <TaskAdd />
+                </Tab>
+                <Tab eventKey="TaskMaintainence" title="Task Maintainence">
+                    <TaskMaintainence />
                 </Tab>
             </Tabs>
       </div>

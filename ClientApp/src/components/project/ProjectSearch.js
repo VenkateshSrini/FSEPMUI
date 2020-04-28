@@ -47,8 +47,9 @@ export class ProjectSearch extends Component {
         this.props.onSelect(prjId, prjNm);
         this.props.onToggle();
     }
+    
     render() {
-        const gridItems = this.state.prjItems;
+        const items = this.state.prjItems;
         return <Container>
             <Row>
                 <Form onSubmit={this.searchProject}>
@@ -80,27 +81,28 @@ export class ProjectSearch extends Component {
                         <th>Project Id</th>
                         <th>Project description</th>
                     </thead>
+                    <tbody>
+                        {((!items) || (items.length <= 0)) ?
+                            <tr><td colSpan="8" align="center"><b>No project found</b></td></tr>
+                            : items.map(item => (
+                                <tr key={item.projId}>
+                                    <th scope="row">
+                                        <Button
+                                            color="info"
+                                            style={{ minWidth: "10px" }}
+                                            onClick={() => this.onRowSelect(item.projId, item.projectTitle)}>Select</Button>
+                                    </th>
+                                    <td>
+                                        {item.projId}
+                                    </td>
+                                    <td>
+                                        {item.projectTitle}
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
                 </Table>
-                <tbody>
-                    {((!items) || (items.length <= 0)) ?
-                        <tr><td colSpan="8" align="center"><b>No Tasks yet</b></td></tr>
-                        : items.map(item => (
-                            <tr key={item.projId}>
-                                <th scope="row">
-                                    <Button
-                                        color="info"
-                                        style={{ minWidth: "10px" }}
-                                        onClick={() => this.onRowSelect(item.projId, item.projectTitle)}>Select</Button>
-                                </th>
-                                <td>
-                                    {item.projId}
-                                </td>
-                                <td>
-                                    {item.projectTitle}
-                                </td>
-                            </tr>
-                    ))}
-                </tbody>
+               
             </Row>
         </Container>
     }

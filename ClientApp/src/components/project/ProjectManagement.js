@@ -146,10 +146,15 @@ export class ProjectManagement extends Component {
                 console.log(response.status);
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
-                //return response.json();
+                return response.json();
                // this.getProject();
             })
-            .then(jsn => this.getUsers())
+            .then(jsn =>{ 
+                console.log("********************")
+                console.log(jsn);
+                console.log("********************")
+                this.getProject()
+            })
             .catch(err => {
                 console.log(err);
                 alert(err);

@@ -7,16 +7,19 @@ export class ProjectSearchModal extends Component {
         modal: false
     }
     toggle = () => {
-        this.setState(previous => ({
-            modal: !previous.modal
-        }));
+        
+            this.setState(previous => ({
+                modal: !previous.modal
+            }));
+        
     }
     render() {
+     
         return <Fragment>
             <Button
                 color="info"
                 onClick={this.toggle}
-                style={{ minWidth: "100px" }}>Search Project</Button>
+                style={{ minWidth: "100px" }} >Search Project</Button>
             <Modal isOpen={this.state.modal} toggle={this.toggle} style={{ minWidth: '500px' }}>
                 <ModalHeader toggle={this.toggle}>Project Search</ModalHeader>
                 <ModalBody>
@@ -27,3 +30,4 @@ export class ProjectSearchModal extends Component {
         </Fragment>
     }
 }
+export default ProjectSearchModal;
