@@ -148,6 +148,23 @@ export class TaskAdd extends Component{
     onParentTaskSelect = (tskId, tskNm) => {
         this.setState({ parentTaskId: tskId, parentDescription: tskNm });
     }
+    onClearForm = () => {
+        this.setState({
+            projectId: '',
+            taskId: '',
+            taskDescription: '',
+            parentTaskId: '',
+            parentDescription: '',
+            priority: 0,
+            status: 0,
+            startDate: null,
+            endDate: null,
+            taskOwnerId: '',
+            taskOwnerName: '',
+            IsSetDates: false
+
+        });
+    }
     render() {
         return <Container>
             <Row>
@@ -298,7 +315,7 @@ export class TaskAdd extends Component{
                             </Col>
                             <Col ><Button
                                 color="secondary"
-                                style={{ minWidth: "200px" }}>Cancel</Button>
+                                style={{ minWidth: "200px" }} onClick={() => this.onClearForm()}>Clear</Button>
                             </Col>
                             <Col/>
                         </Row>

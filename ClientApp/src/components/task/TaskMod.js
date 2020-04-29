@@ -29,11 +29,12 @@ export class TaskMod extends Component {
     componentDidMount() {
         var item = this.props.onGetParam();
         if (item != null) {
+            
             this.setState({
                 projectId: item.projectId, taskId: item.taskId, taskDescription: item.taskDescription,
                 parentTaskId: item.parentTaskId, parentDescription: item.parentDescription, priority: item.priority,
-                status: item.status, startDate: item.startDate, endDate: item.endDate, taskOwnerId: item.taskOwnerId,
-                taskOwnerName: item.taskOwnerName});
+                status: item.status, startDate: new Date(item.startDate), endDate: new Date(item.endDate),
+                taskOwnerId: item.taskOwnerId,taskOwnerName: item.taskOwnerName});
             
         }
     }
@@ -148,14 +149,8 @@ export class TaskMod extends Component {
                     alert("Task successfully created");
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
-                return response.json();
+                //return response.json();
                 // this.getProject();
-            })
-            .then(jsn => {
-                console.log("********************")
-                console.log(jsn);
-                console.log("********************")
-                //this.getProject()
             })
             .catch(err => {
                 console.log(err);

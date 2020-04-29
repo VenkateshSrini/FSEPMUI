@@ -9,14 +9,16 @@ export class TaskMaintainence extends Component {
         item: null
     }
     toggle = (tskitem) => {
-
+        this.setState({ item: tskitem });
         this.setState(previous => ({
             showMode: !previous.showMode
         }));
-        this.setState({ item: tskitem });
+        //this.setState({ item: tskitem });
 
     }
-    getTaskItemForMod = () => { return this.state.item; }
+    getTaskItemForMod = () => {
+        return this.state.item;
+    }
     render() {
        
         return <div>

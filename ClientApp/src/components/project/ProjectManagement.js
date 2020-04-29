@@ -28,10 +28,12 @@ export class ProjectManagement extends Component {
         srchPrjName: '',
         prjItems: [],
         IsSetDates: false
+       
     }
     componentDidMount() {
-        this.getProject();
+        this.getProject(false);
     }
+   
     handleCheckboxChange =e=> {
         if (e.target.checked) {
             var edate = new Date();
@@ -60,7 +62,7 @@ export class ProjectManagement extends Component {
     onEndDateChange = paramDate => {
         this.setState({ endDate: paramDate });
     }
-    getProject = () => {
+    getProject = (prevStateflag) => {
         fetch(`${PRJCT_SERVICE_URL}/GetAllActiveProject`)
             .then(res => {
                 console.log("***********************");
@@ -68,7 +70,13 @@ export class ProjectManagement extends Component {
                 console.log("***********************");
                 return res.json();
             })
-            .then(resjsn => this.setState({ prjItems: resjsn }))
+            .then(resjsn => {
+                if(!prevStateflag)
+                    this.setState({ prjItems: resjsn });
+                else
+                this.setState(prevState =>({prjItems: resjsn}));
+                
+            })
             .catch(err => {
                 console.log(err);
                 alert(err);
@@ -144,6 +152,8 @@ export class ProjectManagement extends Component {
         .then(response => {
                 console.log("*****Get Any criteria*******");
                 console.log(response.status);
+                if (response.status==201)
+                alert ('Project created successfully');
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
                 return response.json();
@@ -153,7 +163,10 @@ export class ProjectManagement extends Component {
                 console.log("********************")
                 console.log(jsn);
                 console.log("********************")
-                this.getProject()
+                //this.setState({prjItems:[]});
+                
+                this.getProject(true)
+                
             })
             .catch(err => {
                 console.log(err);
@@ -182,7 +195,7 @@ export class ProjectManagement extends Component {
                 console.log(response.status);
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
-                this.getProject()
+                this.getProject(true)
 
             })
             .catch(err => {
@@ -191,22 +204,28 @@ export class ProjectManagement extends Component {
             });
     }
     suspend = projId => {
-
-        fetch(`${PRJCT_SERVICE_URL}/SuspendProject?projId=${projId}`, {
-            method: 'put'
-        })
-            .then(response => {
-                console.log("*****Get Any criteria*******");
-                console.log(response.status);
-                //console.log(res.json());
-                console.log("******Get Any criteria******");
-                this.getProject()
-
+        let confirmClose = window.confirm("Are you sure you want to suspend project");
+        if(confirmClose){
+            fetch(`${PRJCT_SERVICE_URL}/SuspendProject?projId=${projId}`, {
+                method: 'put'
             })
-            .catch(err => {
-                console.log(err);
-                alert(err);
-            });
+                .then(response => {
+                    console.log("*****Get Any criteria*******");
+                    console.log(response.status);
+                    if (response.status==202)
+                        alert('Projet closed sucessfully');
+                    else
+                    alert('Error while closing project');
+                    //console.log(res.json());
+                    console.log("******Get Any criteria******");
+                    this.getProject(true);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert(err);
+                });
+        }
     }
     populatePropForEdit = projId => {
         var prjEdit = this.state.prjItems.find(item => item.projId.trim() === projId);
@@ -245,6 +264,7 @@ export class ProjectManagement extends Component {
         this.getProject();
     }
     sortGrid = sortAttribute => {
+        
         if (sortAttribute === 'sdt') {
             this.setState({
                 prjItems: this.state.prjItems.sort((p1, p2) => {

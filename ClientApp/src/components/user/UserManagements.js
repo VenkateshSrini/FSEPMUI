@@ -167,6 +167,7 @@ export class UserManagements extends Component {
         this.setState({ srchEMpId: '', srchfName: '', srchlName: '' });
         this.getUsers();
     }
+    
     sortGrid = (sortAttribute) => {
         if (sortAttribute === 'eid') {
             this.setState({
@@ -215,39 +216,68 @@ export class UserManagements extends Component {
                     <Form onSubmit={this.formubmitHandler}>
                         <FormGroup>
                             <Row>
-                                <Col>
+                                <Col style={{ minWidth:'80px' }}>
                                     <Label for="employeeId">EmployeeId :</Label>
+                                </Col>
+                                <Col style={{ minWidth: '350px' }}>
                                     <Input type="text" name="employeeId" onChange={this.onChange} value={this.state.employeeId}
                                     />
                                 </Col>
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
                             </Row>
                             <Row>
-                                <Col>
+                                <Col style={{ minWidth: '80px' }}>
                                     <Label for="employeeId">First Name :</Label>
+                                    
+                                </Col>
+                                <Col style={{ minWidth: '350px' }}>
                                     <Input type="text" name="firstName" onChange={this.onChange} value={this.state.firstName}
                                     />
-                                </Col>
+                                 </Col>
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
                             </Row>
                             <Row>
-                                <Col>
+                                <Col style={{ minWidth: '80px' }}>
                                     <Label for="employeeId">Last Name :</Label>
+                                    
+                                </Col>
+                                <Col style={{ minWidth: '350px' }}>
                                     <Input type="text" name="lastName" onChange={this.onChange} value={this.state.lastName}
                                     />
                                 </Col>
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
                             </Row>
                             <Row>
+                            <Col/>
                                 <Col>
                                     <Button
                                         color="secondary"
 
-                                        style={{ minWidth: "200px" }}>{this.state.buttonText}</Button>
+                                        style={{ minWidth: "100px" }}>{this.state.buttonText}</Button>
                                 </Col>
                                 <Col>
                                     <Button
                                         color="secondary"
                                         onClick={() => this.clearForm}
-                                        style={{ minWidth: "200px" }}>Clear</Button>
+                                        style={{ minWidth: "100px" }}>Clear</Button>
                                 </Col>
+                                
+                                <Col />
+                                <Col />
+                                <Col />
+                                <Col />
                             </Row>
                         </FormGroup>
                     </Form>

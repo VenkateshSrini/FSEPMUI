@@ -52,24 +52,27 @@ export class TaskList extends Component {
     }
 
     endTask = (prjId, taskId) => {
-        const searchParam = new URLSearchParams();
-        searchParam.append('projId', prjId);
-        searchParam.append('tskId', taskId);
-        fetch(`${PRJCT_SERVICE_URL}/EndProject?${searchParam.toString()}`, {
-            method: 'put'
-        })
-            .then(response => {
-                console.log("*****Get Any criteria*******");
-                console.log(response.status);
-                //console.log(res.json());
-                console.log("******Get Any criteria******");
-                this.getAllTaskForProj(prjId);
-
+        let confirmClose = window.confirm("Are you sure you want to suspend project");
+        if (confirmClose) {
+            const searchParam = new URLSearchParams();
+            searchParam.append('projId', prjId);
+            searchParam.append('tskId', taskId);
+            fetch(`${PRJCT_SERVICE_URL}/EndTask?${searchParam.toString()}`, {
+                method: 'put'
             })
-            .catch(err => {
-                console.log(err);
-                alert(err);
-            });
+                .then(response => {
+                    console.log("*****Get Any criteria*******");
+                    console.log(response.status);
+                    //console.log(res.json());
+                    console.log("******Get Any criteria******");
+                    this.getAllTaskForProj(prjId);
+
+                })
+                .catch(err => {
+                    console.log(err);
+                    alert(err);
+                });
+        }
         
     }
     sortGrid = sortAttribute => {
