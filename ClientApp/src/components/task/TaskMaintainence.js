@@ -5,19 +5,22 @@ import TaskMod from './TaskMod';
 export class TaskMaintainence extends Component {
     static displayName = TaskMaintainence.name;
     state = {
-        showMode: false
+        showMode: false,
+        item: null
     }
-    toggle = () => {
+    toggle = (tskitem) => {
 
         this.setState(previous => ({
             showMode: !previous.showMode
         }));
+        this.setState({ item: tskitem });
 
     }
+    getTaskItemForMod = () => { return this.state.item; }
     render() {
        
         return <div>
-            {this.state.showMode ? <TaskMod onToggle={this.toggle}/> : <TaskList onToggle={this.toggle}/>}
+            {this.state.showMode ? <TaskMod onToggle={this.toggle} onGetParam={this.getTaskItemForMod}/> : <TaskList onToggle={this.toggle}/>}
             
         </div>
     }

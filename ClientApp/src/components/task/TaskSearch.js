@@ -9,9 +9,9 @@ export class TaskSearch extends Component {
     }
     getTasks = () => {
         var prjId = this.props.onGetParam();
-        alert(prjId);
+        
         if (prjId !== '') {
-            fetch(`${PRJCT_SERVICE_URL}/GetAllActiveTask?${prjId}`)
+            fetch(`${PRJCT_SERVICE_URL}/GetAllActiveTask?projId=${prjId}`)
                 .then(res => {
                     console.log("***********************");
                     console.log(res.status)
@@ -44,7 +44,7 @@ export class TaskSearch extends Component {
         this.props.onToggle();
     }
     render() {
-        const items = this.state.prjItems;
+        const items = this.state.tskItems;
         return <Table striped>
             <thead className="thead-dark">
                 <th style={{ textAlign: "center" }}></th>

@@ -146,7 +146,7 @@ export class TaskAdd extends Component{
         return this.state.projectId;
     }
     onParentTaskSelect = (tskId, tskNm) => {
-        this.state.setState({ parentTaskId: tskId, parentDescription: tskNm });
+        this.setState({ parentTaskId: tskId, parentDescription: tskNm });
     }
     render() {
         return <Container>
