@@ -337,7 +337,7 @@ export class UserManagements extends Component {
                             ((!gridItems) || (gridItems.length <= 0)) ?
                                 <ListGroup.Item variant="danger">No Item Found </ListGroup.Item>
                                 : gridItems.map(item => (
-                                    <ListGroup.Item  >
+                                    <ListGroup.Item key={item.id}>
                                         <Row style={{ minHeight: "10px" }}>
                                             <Col>
                                                 EmployeeId:  {item.employeeId}

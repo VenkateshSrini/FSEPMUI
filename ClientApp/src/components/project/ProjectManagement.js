@@ -312,7 +312,7 @@ export class ProjectManagement extends Component {
     render() {
         const gridItems = this.state.prjItems;
         return <Container>
-            <Row>
+            <Row >
                 <Form onSubmit={this.formsubmitHandler} >
                     <FormGroup>
                         <Row>
@@ -336,7 +336,7 @@ export class ProjectManagement extends Component {
                                 minWidth: '200px'
                             }}>
                                 
-                                <Input for="IsSetDates"
+                                <Input name="IsSetDates"
                                     type="checkbox"
                                     value={this.state.IsSetDates}
                                     onChange={this.handleCheckboxChange}
@@ -474,8 +474,8 @@ export class ProjectManagement extends Component {
                             ((!gridItems) || (gridItems.length <= 0)) ?
                                 <ListGroup.Item variant="danger">No Item Found </ListGroup.Item>
                                 : gridItems.map(item => (
-                                    <div>
-                                    <ListGroup.Item  >
+
+                                    <ListGroup.Item key={item.projId}>
                                         <Row style={{ minHeight: "10px" }}>
                                             <Col>
                                                 Project:  {item.projectTitle}
@@ -522,7 +522,7 @@ export class ProjectManagement extends Component {
                                         </Row>
                                         </ListGroup.Item>
                                        
-                                  </div>
+                                  
 
                                 ))
 

@@ -4,7 +4,7 @@ import { PRJCT_SERVICE_URL } from '../constants';
 export class ProjectSearch extends Component {
     static displayName = ProjectSearch.name;
     state = {
-        prjNM:'',
+        prjNM: '',
         prjItems: []
     }
     getProject = () => {
@@ -47,7 +47,7 @@ export class ProjectSearch extends Component {
         this.props.onSelect(prjId, prjNm);
         this.props.onToggle();
     }
-    
+
     render() {
         const items = this.state.prjItems;
         return <Container>
@@ -77,9 +77,11 @@ export class ProjectSearch extends Component {
             <Row>
                 <Table striped>
                     <thead className="thead-dark">
-                        <th style={{ textAlign: "center" }}></th>
-                        <th>Project Id</th>
-                        <th>Project description</th>
+                        <tr>
+                            <th style={{ textAlign: "center" }}></th>
+                            <th>Project Id</th>
+                            <th>Project description</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {((!items) || (items.length <= 0)) ?
@@ -102,7 +104,7 @@ export class ProjectSearch extends Component {
                             ))}
                     </tbody>
                 </Table>
-               
+
             </Row>
         </Container>
     }

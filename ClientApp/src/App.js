@@ -7,12 +7,12 @@ export default class App extends Component {
 
   render () {
     return (
-        <div>
+        <Fragment>
             
             <AppHeader />
             <Home />
             
-        </div>
+        </Fragment>
     );
   }
 }

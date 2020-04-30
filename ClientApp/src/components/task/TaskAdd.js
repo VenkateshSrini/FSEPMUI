@@ -206,7 +206,7 @@ export class TaskAdd extends Component{
                                 minWidth: '200px'
                             }}>
 
-                                <Input for="IsSetDates"
+                                <Input name="IsSetDates"
                                     type="checkbox"
                                     value={this.state.IsSetDates}
                                     onChange={this.handleCheckboxChange}
