@@ -35,7 +35,7 @@ export class UserManagements extends Component {
     }
     populatePropForEdit = userId => {
         var userEdit = this.state.userItms.find(item => item.id.trim() === userId);
-        alert(userEdit.id);
+       // alert(userEdit.id);
         this.setState({
             IsMod: true, userId: userEdit.id, employeeId: userEdit.employeeId,
             firstName: userEdit.firstName, lastName: userEdit.lastName, buttonText: 'Modify'

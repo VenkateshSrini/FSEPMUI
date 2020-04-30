@@ -13,7 +13,7 @@ export class ProjectManagement extends Component {
     static displayName = ProjectManagement.name;
 
     state = {
-        dateTimeMinValue: '0001-01-01T00:00:00Z',
+        dateTimeMinValue: '0001-01-01',
         projId: '',
         projectTitle: '',
         startDate: null,
@@ -153,7 +153,7 @@ export class ProjectManagement extends Component {
                 console.log("*****Get Any criteria*******");
                 console.log(response.status);
                 if (response.status==201)
-                alert ('Project created successfully');
+                alert ('Project created Modified');
                 //console.log(res.json());
                 console.log("******Get Any criteria******");
                 return response.json();
@@ -508,10 +508,11 @@ export class ProjectManagement extends Component {
                                         </Row>
                                         <Row>
                                             <Col>
-                                                Start Date: {item.startDate}
+                                                Start Date: {(item.startDate === this.state.dateTimeMinValue) ?'':item.startDate}
                                             </Col>
                                             <Col>
-                                                End date:{item.endDate}
+                                                End date: {(item.endDate === this.state.dateTimeMinValue) ?
+                                                        '' : item.endDate}
                                                 </Col>
                                             <Col></Col>
                                             <Col>
